@@ -5,8 +5,7 @@
 	<div id="contactsRegion">
 		<ul id="contactsList" data-bind="foreach: contactsArray">
 			<li>
-				<span data-bind="text: firstname"></span>
-				<span data-bind="text: lastname"></span>
+				<span data-bind="text: fullname"></span>
 			</li>
 		</ul>	
 	</div>
