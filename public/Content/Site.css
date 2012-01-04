@@ -1,0 +1,71 @@
+
+body,
+html {
+	font-size: .85em;
+    font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
+	margin:0;
+	padding:0;
+	color:#000;
+	background:#a7a09a;
+}
+
+#wrap {
+	width: 750px;
+	margin: 0 auto;	
+}
+
+#contactsRegion {
+    float: left;
+	width: 300px;
+}
+#mainRegion {
+    float: right;
+	width: 450px;
+}
+
+.remove-contact, .edit-contact, .contact-details, .remove-number
+{
+	font-size:small;
+	margin : 2px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.contact-name{
+	font-size:medium;
+	margin-left: 2px;
+}
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+
+fieldset 
+{
+    border:1px solid #ddd;
+    padding:0 1.4em 1.4em 1.4em;
+    margin:0 0 1.5em 0;
+}
+
+legend 
+{
+    font-size:1.2em;
+    font-weight: bold;
+}
+
+textarea 
+{
+    min-height: 75px;
+}
+
+.editor-label 
+{
+    margin: 1em 0 0 0;
+}
+
+.editor-field 
+{
+    margin:0.5em 0 0 0;
+}
+
+/*label { width: 10em; float: left; }*/
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+

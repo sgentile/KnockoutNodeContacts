@@ -1,0 +1,10 @@
+<div id="wrap">
+	<div id="status">
+	</div>
+	<h2>Contacts - Sample KnockoutJs Contacts App </h2>
+	<div id="contactsRegion">
+	</div>
+	<div id="mainRegion">
+	</div>
+</div>
+
