@@ -3,7 +3,7 @@
 	<h2>Contacts - Sample KnockoutJs Contacts App </h2>
 	
 	<div id="contactsRegion">
-		<ul data-bind="foreach: contactsArray">
+		<ul id="contactsList" data-bind="foreach: contactsArray">
 			<li>
 				<span data-bind="text: firstname"></span>
 				<span data-bind="text: lastname"></span>

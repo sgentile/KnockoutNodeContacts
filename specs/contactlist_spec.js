@@ -9,7 +9,7 @@ describe('Contact list feature', function(){
 		browser
 			.chain()
 			.open('/Contact')
-			.waitForElementPresent('id=dtContacts', 2000)			
+			.waitForElementPresent('id=contactsList', 2000)			
 			.testComplete()
 			.end(function(err){
 				if(err) throw err;
