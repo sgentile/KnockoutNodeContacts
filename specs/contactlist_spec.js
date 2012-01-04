@@ -17,7 +17,7 @@ describe('Contact list feature', function(){
 		.chain
 		.session()
 		.open('/')
-		.waitForElementPresent('id=contactsList', 2000)			
+		.assertElementPresent('id=contactsList', 2000)			
 		.testComplete()
 		.end(function(err){
 			if(err) throw err;
