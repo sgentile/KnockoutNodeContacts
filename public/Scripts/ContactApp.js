@@ -1,5 +1,6 @@
 function Contact(data){
 	var self = this;
+	self.id = ko.observable(data.id);
 	self.firstname = ko.observable(data.firstname);
 	self.lastname = ko.observable(data.lastname);
 	self.fullname = ko.computed(function(){
@@ -10,26 +11,56 @@ function Contact(data){
 function ContactsViewModel(){
 	var self = this;
 	self.contactsArray = ko.observableArray([]);
+	
 	$.getJSON("/Contact", function(data){
 		var mappedContacts = $.map(data, function(item){
 			return new Contact(item);
 		});
 		self.contactsArray(mappedContacts);
 	});
+	
+	amplify.subscribe("addNewContactEvent", function(contact){
+		console.log(contact);
+		$.post("/Contact", contact, function(data){
+			self.contactsArray.push(new Contact(data));	
+		});
+	});
 }
+
 
 function MainRegionViewModel(){ //need to rename this...
 	var self = this;
-	self.selectedView = ko.observable("main");
+	self.selectedView = ko.observable("mainView");
+	self.newContact = ko.observable();
+	self.editContact = ko.observable();
 	//let's determine what is loaded by a route:
-	Sammy(function(){
+	var app = Sammy(function(){
 		this.get("#/", function(context){
-			self.selectedView("main")
+			self.selectedView("mainView");
 		});
 		this.get("#/addContact", function(context){
-			self.selectedView("addContact")
+			self.newContact({id:null, firstname:"", lastname:""});
+			self.selectedView("addContactView");
 		});
-	}).run('#/'); //.run('#/');	//will switch immediately
+		this.get("#/editContact", function(context){
+			//todo get user information ...
+			//self.editContact(new Contact({firstname:"Joe", lastname:"Smo"}));
+			self.selectedView("editContactView");
+		});
+	});
+	
+	app.run('#/'); //.run('#/');	//will switch immediately
+	
+	self.addContact = function(formElement){
+		var temp = self.newContact();
+		var contact = {
+			id : null,
+			firstname: temp.firstname,
+			lastname : temp.lastname
+		}
+		amplify.publish("addNewContactEvent", contact);
+		//self.newContact({firstname:"", lastname:""});
+	}
 }
 
 $(function(){
