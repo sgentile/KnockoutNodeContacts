@@ -2,6 +2,8 @@
 	<div id="status"></div>
 	<h2>Contacts - Sample KnockoutJs Contacts App </h2>
 	
+	<span>Menu goes here... <a href="#/">Main</a> <a href="#/addContact">Add New Contact</a></span>
+	
 	<div id="contactsRegion">
 		<ul id="contactsList" data-bind="foreach: contactsArray">
 			<li>
@@ -10,7 +12,21 @@
 		</ul>	
 	</div>
 	
-	<div id="mainRegion">
+	<div id="mainRegion" data-bind="template: {name: selectedView()}">
 	</div>
 </div>
+
+<script id="main" type="text/html">
+	<div>
+		<h3>Welcome to Contacts App</h3>
+		<p>Maybe you'd like to <a href="#/addContact">Add New Contact</a>?</p>
+	</div>
+</script>
+
+<script id="addContact" type="text/html">
+	<div>
+		<h3>Add New Contact</h3>
+		<p>Add Contact Form Goes Here</p>
+	</div>
+</script>
 

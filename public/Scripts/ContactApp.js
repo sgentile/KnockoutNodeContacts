@@ -17,7 +17,24 @@ function ContactsViewModel(){
 		self.contactsArray(mappedContacts);
 	});
 }
+
+function MainRegionViewModel(){ //need to rename this...
+	var self = this;
+	self.selectedView = ko.observable("main");
+	//let's determine what is loaded by a route:
+	Sammy(function(){
+		this.get("#/", function(context){
+			self.selectedView("main")
+		});
+		this.get("#/addContact", function(context){
+			self.selectedView("addContact")
+		});
+	}).run('#/'); //.run('#/');	//will switch immediately
+}
+
 $(function(){
 	ko.applyBindings(new ContactsViewModel(), document.getElementById('contactsRegion'));
+	ko.applyBindings(new MainRegionViewModel(), document.getElementById('mainRegion'));
 });
+
 
