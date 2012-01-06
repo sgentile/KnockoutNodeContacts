@@ -1,0 +1,6 @@
+Sample application using NodeJs, Sammy.js, KnockoutJs, Amplify.js
+
+run npm install to get packages installed
+run npm test with selenium (need jar file, etc...)
+
+todo: validation, protectedObservable (or something like that)

@@ -32,7 +32,6 @@
 </script>
 
 <script id="addContactFormView" type="text/html">
-	<!--<form data-bind="submit: addContact">-->
 	<form action="#/post/addContact" method="post">
 		<div data-bind="with: newContact">
 			first name: <input data-bind="value: firstname"/><br>
@@ -40,6 +39,7 @@
 		</div>
 		<button type="submit">Submit</button>
 	</form>
+	<span data-bind="text status"></span>
 </script>
 
 <script id="editContactView" type="text/html">
@@ -58,5 +58,6 @@
 		</div>
 		<button type="submit">Submit</button>
 	</form>
+	<span data-bind="text status"></span>
 </script>
 

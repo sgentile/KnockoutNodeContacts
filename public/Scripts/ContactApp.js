@@ -1,8 +1,8 @@
 function Contact(data){
 	var self = this;
-	self.id = ko.observable(data.id);
-	self.firstname = ko.observable(data.firstname);
-	self.lastname = ko.observable(data.lastname);
+	self.id = ko.protectedObservable(data.id);
+	self.firstname = ko.protectedObservable(data.firstname);
+	self.lastname = ko.protectedObservable(data.lastname);
 	self.fullname = ko.computed(function(){
 		return self.firstname() + " " + self.lastname();
 	});
@@ -27,7 +27,6 @@ function ContactsViewModel(){
 	});
 	
 	amplify.subscribe("updateContactEvent", function(contact){
-		console.log(JSON.stringify(contact));
 		$.ajax({
 				url: "/Contact/" + contact.id,
 				type: 'PUT',
@@ -63,6 +62,7 @@ function MainRegionViewModel(){ //need to rename this...
 	self.selectedView = ko.observable("mainView");
 	self.newContact = ko.observable();
 	self.editContact = ko.observable();
+	self.status = ko.observable("");
 	//let's determine what is loaded by a route:
 	var app = Sammy(function(){
 		this.get("#/", function(context){
@@ -89,7 +89,14 @@ function MainRegionViewModel(){ //need to rename this...
 			return false;
 		});
 		this.put("#/put/editContact", function(context){
-			var contact = self.editContact();
+			self.editContact().firstname.commit();
+			self.editContact().lastname.commit();
+			var contact = {
+				id : self.editContact().id(),
+				firstname: self.editContact().firstname(),
+				lastname : self.editContact().lastname()
+			}
+			
 			amplify.publish("updateContactEvent", contact);
 			return false;
 		});
