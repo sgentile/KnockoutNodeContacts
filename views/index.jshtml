@@ -39,7 +39,6 @@
 		</div>
 		<button type="submit">Submit</button>
 	</form>
-	<span data-bind="text status"></span>
 </script>
 
 <script id="editContactView" type="text/html">
@@ -58,6 +57,5 @@
 		</div>
 		<button type="submit">Submit</button>
 	</form>
-	<span data-bind="text status"></span>
 </script>
 

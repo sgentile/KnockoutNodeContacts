@@ -62,7 +62,7 @@ function MainRegionViewModel(){ //need to rename this...
 	self.selectedView = ko.observable("mainView");
 	self.newContact = ko.observable();
 	self.editContact = ko.observable();
-	self.status = ko.observable("");
+	
 	//let's determine what is loaded by a route:
 	var app = Sammy(function(){
 		this.get("#/", function(context){
@@ -78,12 +78,9 @@ function MainRegionViewModel(){ //need to rename this...
 			self.selectedView("editContactView");
 		});
 		this.post("#/post/addContact", function(){
-			var temp = self.newContact();
-			var contact = {
-				id : null,
-				firstname: temp.firstname,
-				lastname : temp.lastname
-			}
+			
+			var contact = ko.toJS(self.newContact);
+			
 			amplify.publish("addNewContactEvent", contact);
 			self.newContact({id:null, firstname:"", lastname:""});
 			return false;
@@ -91,11 +88,8 @@ function MainRegionViewModel(){ //need to rename this...
 		this.put("#/put/editContact", function(context){
 			self.editContact().firstname.commit();
 			self.editContact().lastname.commit();
-			var contact = {
-				id : self.editContact().id(),
-				firstname: self.editContact().firstname(),
-				lastname : self.editContact().lastname()
-			}
+			
+			var contact = ko.toJS(self.editContact);
 			
 			amplify.publish("updateContactEvent", contact);
 			return false;
@@ -108,16 +102,6 @@ function MainRegionViewModel(){ //need to rename this...
 		app.setLocation("#/editContact");
 		self.editContact(contact);		
 	});
-	
-	self.addContact = function(formElement){
-		var temp = self.newContact();
-		var contact = {
-			id : null,
-			firstname: temp.firstname,
-			lastname : temp.lastname
-		}
-		amplify.publish("addNewContactEvent", contact);
-	}
 }
 
 $(function(){
