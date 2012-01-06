@@ -25,6 +25,20 @@ function ContactsViewModel(){
 			self.contactsArray.push(new Contact(data));	
 		});
 	});
+	
+	self.removeContact = function(contact){		
+		if(confirm("Are you sure you want to delete this contact?")){
+			$.ajax({
+				url: "/Contact/" + contact.id(),
+				type: 'DELETE',
+		        data: {},
+		        success: function(){
+		        	self.contactsArray.remove(contact);
+		        },
+		        dataType: 'json'
+			});	
+		}
+	}
 }
 
 
