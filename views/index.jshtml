@@ -8,6 +8,7 @@
 		<ul id="contactsList" data-bind="foreach: contactsArray">
 			<li>
 				<span style="cursor:pointer;" data-bind="click: $root.removeContact">Remove</span>
+				<span style="cursor:pointer;" data-bind="click: $root.editContact">Edit</span>
 				<span data-bind="text: fullname"></span>
 			</li>
 		</ul>	
@@ -49,12 +50,13 @@
 </script>
 
 <script id="editContactFormView" type="text/html">
-	<form>
+	<form action="#/put/editContact" method="put">
 		<div data-bind="with: editContact">
 			<input type="hidden" data-bind="value: id"/>
 			first name: <input data-bind="value: firstname"/><br>
 			last name: <input data-bind="value: lastname"/>
 		</div>
+		<button type="submit">Submit</button>
 	</form>
 </script>
 

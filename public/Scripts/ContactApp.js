@@ -26,6 +26,19 @@ function ContactsViewModel(){
 		});
 	});
 	
+	amplify.subscribe("updateContactEvent", function(contact){
+		console.log(JSON.stringify(contact));
+		$.ajax({
+				url: "/Contact/" + contact.id,
+				type: 'PUT',
+		        data: contact,
+		        success: function(){
+		        	//self.contactsArray.remove(contact);
+		        },
+		        dataType: 'json'
+			});	
+	});
+	
 	self.removeContact = function(contact){		
 		if(confirm("Are you sure you want to delete this contact?")){
 			$.ajax({
@@ -38,6 +51,9 @@ function ContactsViewModel(){
 		        dataType: 'json'
 			});	
 		}
+	}
+	self.editContact = function(contact){
+		amplify.publish('showEditContactEvent', contact);
 	}
 }
 
@@ -72,9 +88,19 @@ function MainRegionViewModel(){ //need to rename this...
 			self.newContact({id:null, firstname:"", lastname:""});
 			return false;
 		});
+		this.put("#/put/editContact", function(context){
+			var contact = self.editContact();
+			amplify.publish("updateContactEvent", contact);
+			return false;
+		});
 	});
 	
 	app.run('#/'); //.run('#/');	//will switch immediately
+	
+	amplify.subscribe('showEditContactEvent', function(contact){
+		app.setLocation("#/editContact");
+		self.editContact(contact);		
+	});
 	
 	self.addContact = function(formElement){
 		var temp = self.newContact();
