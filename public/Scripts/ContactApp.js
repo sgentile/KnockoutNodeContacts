@@ -47,6 +47,17 @@ function MainRegionViewModel(){ //need to rename this...
 			//self.editContact(new Contact({firstname:"Joe", lastname:"Smo"}));
 			self.selectedView("editContactView");
 		});
+		this.post("#/post/addContact", function(){
+			var temp = self.newContact();
+			var contact = {
+				id : null,
+				firstname: temp.firstname,
+				lastname : temp.lastname
+			}
+			amplify.publish("addNewContactEvent", contact);
+			self.newContact({id:null, firstname:"", lastname:""});
+			return false;
+		});
 	});
 	
 	app.run('#/'); //.run('#/');	//will switch immediately
@@ -59,7 +70,6 @@ function MainRegionViewModel(){ //need to rename this...
 			lastname : temp.lastname
 		}
 		amplify.publish("addNewContactEvent", contact);
-		//self.newContact({firstname:"", lastname:""});
 	}
 }
 

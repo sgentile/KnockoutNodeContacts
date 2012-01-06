@@ -12,8 +12,7 @@
 		</ul>	
 	</div>
 	
-	<div id="mainRegion" data-bind="template: {name: selectedView()}">
-	</div>
+	<div id="mainRegion" data-bind="template: {name: selectedView()}"></div>
 </div>
 
 <script id="mainView" type="text/html">
@@ -31,7 +30,8 @@
 </script>
 
 <script id="addContactFormView" type="text/html">
-	<form data-bind="submit: addContact">
+	<!--<form data-bind="submit: addContact">-->
+	<form action="#/post/addContact" method="post">
 		<div data-bind="with: newContact">
 			first name: <input data-bind="value: firstname"/><br>
 			last name: <input data-bind="value: lastname"/>
