@@ -64,7 +64,7 @@ function MainRegionViewModel(){ //need to rename this...
 	self.editContact = ko.observable();
 	
 	//let's determine what is loaded by a route:
-	var app = Sammy(function(){
+	self.app = Sammy(function(){
 		this.get("#/", function(context){
 			self.selectedView("mainView");
 		});
@@ -96,17 +96,71 @@ function MainRegionViewModel(){ //need to rename this...
 		});
 	});
 	
-	app.run('#/'); //.run('#/');	//will switch immediately
+	self.app.run('#/'); //.run('#/');	//will switch immediately
 	
 	amplify.subscribe('showEditContactEvent', function(contact){
-		app.setLocation("#/editContact");
+		self.app.setLocation("#/editContact");
 		self.editContact(contact);		
 	});
 }
 
 $(function(){
-	ko.applyBindings(new ContactsViewModel(), document.getElementById('contactsRegion'));
-	ko.applyBindings(new MainRegionViewModel(), document.getElementById('mainRegion'));
+	var contactsViewModel = new ContactsViewModel();
+	var mainRegionViewModel = new MainRegionViewModel();
+	
+	ko.applyBindings(contactsViewModel, document.getElementById('contactsRegion'));
+	ko.applyBindings(mainRegionViewModel, document.getElementById('mainRegion'));
+	
+	var viewModels={
+		contacts : contactsViewModel,
+		main : mainRegionViewModel
+	}
+	amplify.publish("runTests", viewModels);
 });
+
+//tests:
+amplify.subscribe('runTests', function(models){
+			var contactsViewModel = models.contacts;
+			var mainRegionViewModel = models.main;
+			
+			var expectedContact = {
+				//id : uuid.v1(),
+				firstname: "Steve",
+				lastname : "Gentile",
+				phonenumbers : [{
+					//"id" : uuid.v1(), 
+					"number": "111-111-1111"
+				}]
+			};
+			
+			var expectedComputedFullName = expectedContact.firstname + " " + expectedContact.lastname;
+			
+		
+			//tests just against the view model-http://jsfiddle.net/rniemeyer/KF9k7/2/
+   			module("view model tests");
+ 			//make sure we are on the home page:
+ 			mainRegionViewModel.app.setLocation('#/');
+ 			
+ 			test("validate correct page", function(){
+ 				equals(mainRegionViewModel.app.getLocation(), '/#/', "correct location");
+ 			});
+ 			
+	        test("initial contacts length", function() {
+	        	equals(contactsViewModel.contactsArray().length, 1, "contacts length");
+	        });
+	        
+	        test("initial first item", function() {
+	           equals(contactsViewModel.contactsArray()[0].firstname(), expectedContact.firstname, "first item's firstname is Steve");
+	           equals(contactsViewModel.contactsArray()[0].lastname(), expectedContact.lastname, "first item's lastname is Gentile");
+	        });
+	        
+	        test("initial fullname computed item", function() {
+	           equals(contactsViewModel.contactsArray()[0].fullname(), expectedComputedFullName, "first item's fullname is Steve Gentile");
+	        });
+	});
+	
+
+
+
 
 
