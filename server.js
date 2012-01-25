@@ -1,7 +1,7 @@
 var express = require('express'),
 uuid = require('node-uuid'); //https://github.com/broofa/node-uuid
 var _ = require('underscore')._
-var fs = require('fs');
+/*var fs = require('fs');*/
 
 app = module.exports = express.createServer();
 //app = express.createServer();
@@ -61,6 +61,7 @@ app.post('/Contact', function(req, res){
 
 var url = require('url');
 
+/*
 app.get("/template/:area/:name", function(req, res) {
 	var area = req.params.area;
 	var name = req.params.name;
@@ -79,6 +80,7 @@ app.get("/template/:area/:name", function(req, res) {
 	});
 	
 });
+*/
 
 app.put('/Contact/:id', function(req, res){
 	var editContact = _.find(contacts, function(c){

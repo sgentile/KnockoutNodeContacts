@@ -1,5 +1,12 @@
 var Contact = function(data){
 	var self = this;
+	if(!data){
+		data = {
+			id : null,
+			firstname : "",
+			lastname : ""
+		}
+	}
 	self.id = ko.protectedObservable(data.id);
 	self.firstname = ko.protectedObservable(data.firstname);
 	self.lastname = ko.protectedObservable(data.lastname);
