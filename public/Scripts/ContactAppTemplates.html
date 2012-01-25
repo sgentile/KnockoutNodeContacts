@@ -1,0 +1,41 @@
+<script id="mainView" type="text/html">
+	<div>
+		<h3>Welcome to Contacts App</h3>
+		<p>Maybe you'd like to <a href="#/addContact">Add New Contact</a>?</p>
+	</div>
+</script>
+
+<script id="addContactView" type="text/html">
+	<div>
+		<h3>Add New Contact</h3>
+		<div id="addContactForm" data-bind="template: {name: 'addContactFormView'}"></div>
+	</div>
+</script>
+
+<script id="addContactFormView" type="text/html">
+	<form action="#/post/addContact" method="post">
+		<div data-bind="with: newContact">
+			first name: <input data-bind="value: firstname"/><br>
+			last name: <input data-bind="value: lastname"/>
+		</div>
+		<button type="submit">Submit</button>
+	</form>
+</script>
+
+<script id="editContactView" type="text/html">
+	<div>
+		<h3>Edit Contact</h3>
+		<div id="addContactForm" data-bind="template: {name: 'editContactFormView'}"></div>
+	</div>
+</script>
+
+<script id="editContactFormView" type="text/html">
+	<form action="#/put/editContact" method="put">
+		<div data-bind="with: editContact">
+			<input type="hidden" data-bind="value: id"/>
+			first name: <input data-bind="value: firstname"/><br>
+			last name: <input data-bind="value: lastname"/>
+		</div>
+		<button type="submit">Submit</button>
+	</form>
+</script>
