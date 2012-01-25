@@ -1,4 +1,4 @@
-function Contact(data){
+var Contact = function(data){
 	var self = this;
 	self.id = ko.protectedObservable(data.id);
 	self.firstname = ko.protectedObservable(data.firstname);
@@ -6,9 +6,9 @@ function Contact(data){
 	self.fullname = ko.computed(function(){
 		return self.firstname() + " " + self.lastname();
 	});
-}
+};
 
-function ContactsViewModel(){
+var ContactsViewModel = function(){
 	var self = this;
 	self.contactsArray = ko.observableArray([]);
 	
@@ -54,55 +54,53 @@ function ContactsViewModel(){
 	self.editContact = function(contact){
 		amplify.publish('showEditContactEvent', contact);
 	}
-}
+};
 
 
-function MainRegionViewModel(){ //need to rename this...
+var MainRegionViewModel = function(){ //need to rename this...
 	var self = this;
 	self.selectedView = ko.observable("mainView");
 	self.newContact = ko.observable();
 	self.editContact = ko.observable();
-	
-	//let's determine what is loaded by a route:
-	self.app = Sammy(function(){
+};
+
+var Router = function(main){
+	this.app = Sammy(function(){
 		this.get("#/", function(context){
-			self.selectedView("mainView");
+			main.selectedView("mainView");
 		});
 		this.get("#/addContact", function(context){
-			self.newContact({id:null, firstname:"", lastname:""});
-			self.selectedView("addContactView");
+			main.newContact(new Contact());
+			main.selectedView("addContactView");
 		});
 		this.get("#/editContact", function(context){
 			//todo get user information ...
 			//self.editContact(new Contact({firstname:"Joe", lastname:"Smo"}));
-			self.selectedView("editContactView");
+			main.selectedView("editContactView");
 		});
 		this.post("#/post/addContact", function(){
 			
-			var contact = ko.toJS(self.newContact);
+			var contact = ko.toJS(main.newContact);
 			
 			amplify.publish("addNewContactEvent", contact);
-			self.newContact({id:null, firstname:"", lastname:""});
+			main.newContact(new Contact());
 			return false;
 		});
 		this.put("#/put/editContact", function(context){
-			self.editContact().firstname.commit();
-			self.editContact().lastname.commit();
+			main.editContact().firstname.commit();
+			main.editContact().lastname.commit();
 			
-			var contact = ko.toJS(self.editContact);
+			var contact = ko.toJS(main.editContact);
 			
 			amplify.publish("updateContactEvent", contact);
 			return false;
 		});
 	});
 	
-	self.app.run('#/'); //.run('#/');	//will switch immediately
-	
-	amplify.subscribe('showEditContactEvent', function(contact){
-		self.app.setLocation("#/editContact");
-		self.editContact(contact);		
-	});
-}
+	this.app.run('#/'); //.run('#/');	//will switch immediately
+
+	return this.app;
+};
 
 $(function(){
 	var contactsViewModel = new ContactsViewModel();
@@ -111,9 +109,17 @@ $(function(){
 	ko.applyBindings(contactsViewModel, document.getElementById('contactsRegion'));
 	ko.applyBindings(mainRegionViewModel, document.getElementById('mainRegion'));
 	
+	var router = new Router(mainRegionViewModel);
+	
+	amplify.subscribe('showEditContactEvent', function(contact){
+		router.setLocation("#/editContact");
+		mainRegionViewModel.editContact(contact);		
+	});
+	
 	var viewModels={
 		contacts : contactsViewModel,
-		main : mainRegionViewModel
+		main : mainRegionViewModel,
+		router : router
 	}
 	amplify.publish("runTests", viewModels);
 });
@@ -139,10 +145,10 @@ amplify.subscribe('runTests', function(models){
 			//tests just against the view model-http://jsfiddle.net/rniemeyer/KF9k7/2/
    			module("view model tests");
  			//make sure we are on the home page:
- 			mainRegionViewModel.app.setLocation('#/');
+ 			models.router.setLocation('#/');
  			
  			test("validate correct page", function(){
- 				equals(mainRegionViewModel.app.getLocation(), '/#/', "correct location");
+ 				equals(models.router.getLocation(), '/#/', "correct location");
  			});
  			
 	        test("initial contacts length", function() {
