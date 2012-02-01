@@ -86,6 +86,8 @@ var Router = function(main){
 			main.selectedView("editContactView");
 		});
 		this.post("#/post/addContact", function(){
+			main.newContact().firstname.commit();
+			main.newContact().lastname.commit();
 			
 			var contact = ko.toJS(main.newContact);
 			
@@ -109,69 +111,6 @@ var Router = function(main){
 	return this.app;
 };
 
-// $(function(){
-	// var contactsViewModel = new ContactsViewModel();
-	// var mainRegionViewModel = new MainRegionViewModel();
-// 	
-	// ko.applyBindings(contactsViewModel, document.getElementById('contactsRegion'));
-	// ko.applyBindings(mainRegionViewModel, document.getElementById('mainRegion'));
-// 	
-	// var router = new Router(mainRegionViewModel);
-// 	
-	// amplify.subscribe('showEditContactEvent', function(contact){
-		// router.setLocation("#/editContact");
-		// mainRegionViewModel.editContact(contact);		
-	// });
-// 	
-	// var viewModels={
-		// contacts : contactsViewModel,
-		// main : mainRegionViewModel,
-		// router : router
-	// }
-	// amplify.publish("runTests", viewModels);
-// });
-
-//tests:
-amplify.subscribe('runTests', function(models){
-			var contactsViewModel = models.contacts;
-			var mainRegionViewModel = models.main;
-			
-			var expectedContact = {
-				//id : uuid.v1(),
-				firstname: "Steve",
-				lastname : "Gentile",
-				phonenumbers : [{
-					//"id" : uuid.v1(), 
-					"number": "111-111-1111"
-				}]
-			};
-			
-			var expectedComputedFullName = expectedContact.firstname + " " + expectedContact.lastname;
-			
-		
-			//tests just against the view model-http://jsfiddle.net/rniemeyer/KF9k7/2/
-   			module("view model tests");
- 			//make sure we are on the home page:
- 			models.router.setLocation('#/');
- 			
- 			test("validate correct page", function(){
- 				equals(models.router.getLocation(), '/#/', "correct location");
- 			});
- 			
-	        test("initial contacts length", function() {
-	        	equals(contactsViewModel.contactsArray().length, 1, "contacts length");
-	        });
-	        
-	        test("initial first item", function() {
-	           equals(contactsViewModel.contactsArray()[0].firstname(), expectedContact.firstname, "first item's firstname is Steve");
-	           equals(contactsViewModel.contactsArray()[0].lastname(), expectedContact.lastname, "first item's lastname is Gentile");
-	        });
-	        
-	        test("initial fullname computed item", function() {
-	           equals(contactsViewModel.contactsArray()[0].fullname(), expectedComputedFullName, "first item's fullname is Steve Gentile");
-	        });
-	});
-	
 
 
 

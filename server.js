@@ -28,6 +28,9 @@ contacts.push(contact);
 app.get("/", function(req, res){
 	res.render("index");
 });
+app.get("/tests", function(req, res){
+	res.sendfile(__dirname + "/views/tests.html");
+});
 app.get("/Contact", function(req, res){
 	console.log("Get " + JSON.stringify(contacts));
 	res.send(contacts);

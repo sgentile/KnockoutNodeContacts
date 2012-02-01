@@ -3,34 +3,10 @@
 	<head>
 		<title>KnockoutNodeContacts</title>
 		
-		<!--
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-		<script src="/Scripts/Thirdparty/knockout.js" type="text/javascript"></script>
-		<script src="/Scripts/Thirdparty/knockout-extensions.js" type="text/javascript"></script>
-		<script src="/Scripts/Thirdparty/sammy-latest.min.js" type="text/javascript"></script>
-		<script src="/Scripts/Thirdparty/amplify.min.js" type="text/javascript"></script>
-		-->
 		<script data-main="Scripts/main" src="Scripts/require-jquery.js"></script>
-		
-	
-		<link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css" media="screen">
-	<script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
-	
-		<!--
-		<script src="/Scripts/ContactApp.js" type="text/javascript"></script>	
-		-->
-
 		<link href="/Content/Site.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 	@writeBody();
-	
-	<div style="clear:both;"></div>
-	
-	<h1 id="qunit-header">Unit Tests</h1>
-<h2 id="qunit-banner"></h2>
-<div id="qunit-testrunner-toolbar"></div>
-<ol id="qunit-tests"></ol>
-<div id="qunit-fixture"></div>
 	</body>
 </html>
